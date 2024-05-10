@@ -5,6 +5,8 @@ import {redirect} from "next/navigation";
 import {IconBadge} from "@/components/icon-badge";
 import {LayoutDashboard} from "lucide-react";
 import TitleForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/title-form";
+import DescriptionForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/description-form";
+import ImageForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/image-form";
 
 const CourseIdPage = async ({params}: {
     params: {courseId: string}
@@ -37,6 +39,7 @@ const CourseIdPage = async ({params}: {
 
     const completionText = `(${completedFields}/${totalsFields})`
 
+
     return (
         <div className={"p-6"}>
            <div className={"flex items-center justify-between"}>
@@ -58,6 +61,16 @@ const CourseIdPage = async ({params}: {
                         </h2>
                     </div>
                     <TitleForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
+
+                    <DescriptionForm
+                        initialData={course}
+                        courseId={course.id}
+                    />
+
+                    <ImageForm
                         initialData={course}
                         courseId={course.id}
                     />
