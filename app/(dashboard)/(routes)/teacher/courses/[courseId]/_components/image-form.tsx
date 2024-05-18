@@ -26,7 +26,7 @@ const formSchema = z.object({
    })
 })
 
-const DescriptionForm = ({initialData, courseId}: ImageFormProps) => {
+const ImageForm = ({initialData, courseId}: ImageFormProps) => {
     const [isEditing, setIsEditing] = useState(false)
 
     const toggleEditing = () => setIsEditing((current) => !current)
@@ -103,4 +103,4 @@ const DescriptionForm = ({initialData, courseId}: ImageFormProps) => {
     );
 };
 
-export default DescriptionForm;
+export default ImageForm;
