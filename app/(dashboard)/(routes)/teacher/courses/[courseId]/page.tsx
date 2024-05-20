@@ -10,6 +10,8 @@ import ImageForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_co
 import CategoryForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/category-form";
 import PriceForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/price-form";
 import AttachementForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/attachment-form";
+import ChaptersForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/chapters-form";
+import chaptersForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/chapters-form";
 
 const CourseIdPage = async ({params}: {
     params: {courseId: string}
@@ -21,9 +23,15 @@ const CourseIdPage = async ({params}: {
     }
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId
+            id: params.courseId,
+            userId
         },
         include: {
+            chapter: {
+                orderBy: {
+                    position: "asc"
+                }
+            },
             attachments: {
                 orderBy: {
                     createdAt: "desc",
@@ -38,7 +46,6 @@ const CourseIdPage = async ({params}: {
         },
     })
 
-    console.log(categories)
 
     if (!course) {
         return redirect("/")
@@ -49,7 +56,8 @@ const CourseIdPage = async ({params}: {
         course.description,
         course.imageUrl,
         course.price,
-        course.categoryId
+        course.categoryId,
+        course.chapter.some(chapter => chapter.isPublished)
     ]
 
     const totalsFields = requiredFields.length
@@ -109,7 +117,10 @@ const CourseIdPage = async ({params}: {
                             </h2>
                         </div>
                         <div>
-                            TODO: Chapter
+                            <ChaptersForm
+                                initialData={course}
+                                courseId={course.id}
+                            />
                         </div>
                     </div>
                     <div className={"flex items-center gap-x-2"}>
