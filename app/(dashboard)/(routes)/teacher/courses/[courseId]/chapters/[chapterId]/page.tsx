@@ -7,6 +7,8 @@ import {ArrowLeft, LayoutDashboard} from "lucide-react";
 import {IconBadge} from "@/components/icon-badge";
 import ChapterTitleForm
     from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/[chapterId]/_components/chapter-title-form";
+import ChapterDescriptionForm
+    from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/[chapterId]/_components/chapter-description-form";
 
 const ChapterIdPage = async ({params}: {params: {courseId: string; chapterId: string}}) => {
 
@@ -79,6 +81,10 @@ const ChapterIdPage = async ({params}: {params: {courseId: string; chapterId: st
                             courseId={params.courseId}
                             chapterId={params.chapterId}
                         />
+                        <ChapterDescriptionForm
+                            initialData={chapter}
+                            courseId={params.courseId}
+                            chapterId={params.chapterId}/>
                     </div>
                 </div>
             </div>
