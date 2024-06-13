@@ -19,6 +19,26 @@ const ChapterActions = ({disabled,courseId,chapterId,isPublished}:ChapterActions
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
+    const onClick = async () => {
+        try {
+            setIsLoading(true)
+
+            if (isPublished) {
+                await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`)
+                toast.success("Chapter unpublished")
+            }else {
+                await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`)
+                toast.success("Chapter published")
+            }
+
+            router.refresh()
+        }catch {
+            toast.error("Error creating chapter");
+        }finally {
+            setIsLoading(false)
+        }
+    }
+
     const onDelete = async () => {
         try {
             setIsLoading(true);
@@ -36,7 +56,7 @@ const ChapterActions = ({disabled,courseId,chapterId,isPublished}:ChapterActions
     return (
         <div className="flex items-center gap-x-2">
             <Button
-                onClick={() => {}}
+                onClick={onClick}
                 disabled={disabled || isLoading}
                 variant="outline"
                 size="sm"
