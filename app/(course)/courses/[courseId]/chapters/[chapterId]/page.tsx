@@ -22,9 +22,10 @@ const ChapterIdPage = async ({
         return redirect("/")
     }
 
-    const {chapter
-        ,course
-        ,muxData,
+    const {
+        chapter,
+        course,
+        muxData,
         attachments,
         nextChapter,
         userProgress,
