@@ -4,23 +4,32 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import MuxPlayer from "@mux/mux-player-react";
 import {toast} from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import {Loader2, Lock} from "lucide-react";
 
 import {cn} from "@/lib/utils"
 
 interface VideoPlayerProps {
-    chapterId:string
-    title: string
-    courseId: string
-    nextChapterId?: string
-    playbackId: string
-    isLocked: boolean
-    completeOnEnd:boolean
-
+    chapterId: string,
+    title: string,
+    courseId: string,
+    nextChapterId?: string,
+    playbackId: string,
+    isLocked: boolean,
+    completeOnEnd: boolean,
+    nextChapter?: string | undefined
 }
 
-const VideoPlayer = ({chapterId,title,courseId,completeOnEnd,playbackId,nextChapterId,isLocked}:VideoPlayerProps) => {
+const VideoPlayer = ({
+                         chapterId,
+                         title,
+                         courseId,
+                         completeOnEnd,
+                         playbackId,
+                         nextChapterId,
+                         isLocked,
+                         nextChapter
+                     }: VideoPlayerProps) => {
 
     const [isReady, setReady] = useState(false);
 
@@ -31,7 +40,7 @@ const VideoPlayer = ({chapterId,title,courseId,completeOnEnd,playbackId,nextChap
             if (completeOnEnd) {
                 await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {isCompleted: true})
 
-                if(!nextChapterId) {
+                if (!nextChapterId) {
                     toast.success("Chapter completed");
                 }
                 toast.success("Progress updated");
@@ -41,7 +50,7 @@ const VideoPlayer = ({chapterId,title,courseId,completeOnEnd,playbackId,nextChap
                     router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
                 }
             }
-        }catch {
+        } catch {
             toast.error("Something went wrong");
         }
     }
@@ -53,7 +62,8 @@ const VideoPlayer = ({chapterId,title,courseId,completeOnEnd,playbackId,nextChap
                 </div>
             )}
             {isLocked && (
-                <div className={"absolute inset-0 flex items-center justify-center bg-slate-800 flex-col gap-y-2 text-secondary"}>
+                <div
+                    className={"absolute inset-0 flex items-center justify-center bg-slate-800 flex-col gap-y-2 text-secondary"}>
                     <Lock className={"h-8 w-8"}/>
                     <p className={"text-sm"}>
                         This chapter is locked
