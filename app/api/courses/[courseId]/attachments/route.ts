@@ -8,7 +8,7 @@ export async function POST(req: Request, {params}: { params: { courseId: string 
         const {userId} = auth()
         const {url} = await req.json()
 
-        if(!userId){
+        if(!userId ){
             return new NextResponse("Unauthorized", {status: 401})
         }
         const courseOwner = await db.course.findUnique({
